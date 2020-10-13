@@ -13,4 +13,4 @@ tree_feature_input, nn_feature_input = user_input_process(user_input)
 
 score = combine_score(tree_feature_input, nn_feature_input)[0]
 
-print("score")
+print(score)
