@@ -61,12 +61,12 @@ def input_process(user_input):
 
 def tree_input_process(user_input, user_input_processed_1):
     user_input_tree_dict = OrderedDict.fromkeys(TREE_COLS,0)
-    for key, value in user_input_tree_dict.items():
+    for key, _ in user_input_tree_dict.items():
         if key in user_input_processed_1:
             user_input_tree_dict[key] = user_input_processed_1[key]
             continue
-        for input_key, val in user_input.items():
-            if input_key in key and val in key:
+        for _, val in user_input.items():
+            if str(val) in key:
                 user_input_tree_dict[key] = 1
     return pd.DataFrame(user_input_tree_dict, index=[0]).values
 
