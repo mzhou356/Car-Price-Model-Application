@@ -2,12 +2,12 @@
 This module contains helper functions for data_process.py.
 """
 import pickle as pkl
-import joblib 
+from collections import OrderedDict
+import joblib
 import tensorflow as tf
 import numpy as np
 import pandas as pd
-import pickle
-from collections import OrderedDict
+
 tfk = tf.keras
 
 # define helper functions.
@@ -53,7 +53,7 @@ def input_process(user_input):
     processed = {}
     for i, col in enumerate(cols):
         original_value = user_input[col]
-        converted_value = binning(original_value, BINNING_MAPS[i])
+        converted_value = int(binning(original_value, BINNING_MAPS[i]))
         processed[binned_columns[i]] = converted_value
         if col != "year":
             user_input.pop(col)
