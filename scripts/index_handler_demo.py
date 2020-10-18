@@ -1,16 +1,18 @@
+#!usr/bin/python
 """
-1. This script reads input from user as a json object.
+1. This script reads a single input from user as a json object.
 2. Processes the data into feature format for prediction.
+3. Outputs a score as dictionary/json format.
 """
 import json
-from utils import user_input_process, combine_score 
+from utils import user_input_process, combine_score
 
-user_input = json.load(open("user_input.json"))
+# load in a list of test user inputs from training data.
+USER_INPUT = json.load(open("test_input.json"))
 
-# load in maps for feature processing 
+TREE_FEATURE, NN_FEATURE = user_input_process(USER_INPUT)
+SCORE = combine_score(TREE_FEATURE, NN_FEATURE)[0]
 
-tree_feature_input, nn_feature_input = user_input_process(user_input)
+OUTPUT = {"pred_price":SCORE}
 
-score = combine_score(tree_feature_input, nn_feature_input)[0]
-
-print(score)
+print(OUTPUT, flush=True)
