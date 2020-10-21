@@ -1,12 +1,15 @@
 import flask
 from flask import request, jsonify
+from utils import user_input_process, combine_score
 
 app = flask.Flask(__name__)
 
-@app.route("/", methods=["GET"])
-def home():
-    return """<h1>Distant Reading Archive</h1>
-              <p>A prototype API for distant reading of science fiction novels.</p>"""
-              
+@app.route("/carPrice", methods=["POST"])
+def predict():
+	content = request.get_json()
+	tree_feature, nn_feature = user_input_process(content)
+	score = combine_score(tree_feature, nn_feature)[0]
+	return jsonify(score)
+	
 if __name__ == "__main__":
-    app.run(threaded=True, port=5000, debug=True, use_reloader=True)
+    app.run(threaded=True, port=6000, debug=True, use_reloader=True)
