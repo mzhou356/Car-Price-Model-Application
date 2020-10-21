@@ -12,4 +12,4 @@ def predict():
         return jsonify({"pred_price":score})
 	
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", threaded=True, port=8080, debug=True, use_reloader=True)
+    app.run(host="0.0.0.0", threaded=True, port=8081, debug=True, use_reloader=True)
