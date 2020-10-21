@@ -6,10 +6,10 @@ app = flask.Flask(__name__)
 
 @app.route("/carPrice", methods=["POST"])
 def predict():
-	content = request.get_json()
-	tree_feature, nn_feature = user_input_process(content)
-	score = combine_score(tree_feature, nn_feature)[0]
-	return jsonify(score)
+        content = request.get_json()
+        tree_feature, nn_feature = user_input_process(content)
+        score = combine_score(tree_feature, nn_feature)[0]
+        return jsonify(score)
 	
 if __name__ == "__main__":
-    app.run(threaded=True, port=6000, debug=True, use_reloader=True)
+    app.run(host="0.0.0.0", threaded=True, port=8080, debug=True, use_reloader=True)
