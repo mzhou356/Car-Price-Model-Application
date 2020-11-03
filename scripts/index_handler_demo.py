@@ -8,13 +8,16 @@ import json
 from utils import user_input_process, score
 
 # load in a list of test user inputs from training data.
-USER_INPUT = json.load(open("test_input.json"))
 
-TREE_FEATURE = user_input_process(USER_INPUT)
-SCORE = score(TREE_FEATURE)[0]
-
-OUTPUT = {"pred_price":SCORE}
-
-print(OUTPUT, flush=True)
-
-
+def lambda_handler(event,context):
+	USER_INPUT = json.load(open("test_input.json"))
+	TREE_FEATURE = user_input_process(USER_INPUT)
+	SCORE = score(TREE_FEATURE)[0]
+	
+	return {
+		"predicted_price": SCORE,
+		"statusCode":200,
+		"body":json.dumps("Predicted the car price!")
+	}
+	
+print(lambda_handler("test","test"))
