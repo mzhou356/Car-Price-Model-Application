@@ -19,5 +19,3 @@ def lambda_handler(event,context):
 		"statusCode":200,
 		"body":json.dumps("Predicted the car price!")
 	}
-	
-print(lambda_handler("test","test"))
