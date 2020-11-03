@@ -1,13 +1,18 @@
 """
 This module contains helper functions for data_process.py.
 """
+import os
 import pickle as pkl
 from collections import OrderedDict
 import joblib
-import tensorflow as tf
+# import tensorflow as tf
 import pandas as pd
 
-tfk = tf.keras
+PATH = os.path.dirname(os.path.abspath(__file__))
+
+
+
+# tfk = tf.keras
 
 # define helper functions.
 def load_dict(filename):
@@ -25,19 +30,13 @@ def load_dict(filename):
     return dict_mapping
 
 # define constants:
-YEAR_MAP = load_dict("../saved_dict_mappings/year_map.pkl")
-MILEAGE_MAP = load_dict("../saved_dict_mappings/mil_dict.pkl")
-MPG_MAP = load_dict("../saved_dict_mappings/mpg_dict.pkl")
-ENGINE_MAP = load_dict("../saved_dict_mappings/engine_dict.pkl")
+YEAR_MAP = load_dict(os.path.join(PATH, "year_map.pkl"))
+MILEAGE_MAP = load_dict(os.path.join(PATH, "mil_dict.pkl"))
+MPG_MAP = load_dict(os.path.join(PATH, "mpg_dict.pkl"))
+ENGINE_MAP = load_dict(os.path.join(PATH, "engine_dict.pkl"))
 BINNING_MAPS = [YEAR_MAP, MILEAGE_MAP, MPG_MAP, ENGINE_MAP]
-TREE_COLS = load_dict("../saved_dict_mappings/tree_feature_cols.pkl")
-NN_COLS = load_dict("../saved_dict_mappings/nn_feature_cols.pkl")
-CATE_MAP = load_dict("../saved_dict_mappings/cate_map.pkl")
-EMBED_COLS = ["model", "transmission", "brand", "fuelType", "year",
-              "mil_cat", "binned_mpg", "engine_binned"]
-RF_MDL = joblib.load("../saved_models/rf_price_regressor.sav")
-NN_MDL = tfk.models.load_model("../saved_models/final_embed_mdl.h5",
-                               custom_objects={"leaky_relu":tf.nn.leaky_relu})
+TREE_COLS = load_dict(os.path.join(PATH, "tree_feature_cols.pkl"))
+RF_MDL = joblib.load(os.path.join(PATH, "rf_price_regressor.sav"))
 
 def binning(col, thresholds):
     """
