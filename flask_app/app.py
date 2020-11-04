@@ -16,7 +16,7 @@ def after_request(response):
 @app.route("/carPrice", methods=["POST"])
 def predict():
     content = request.get_json()
-    print(content)
+#     print(content)
     if content is None:
     	return jsonify({"error": "invalid input"}), 400
     tree_feature, nn_feature = user_input_process(content)
@@ -24,5 +24,5 @@ def predict():
     return jsonify({"pred_price":score}), 200
 	
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", threaded=True, port=8081, debug=True, use_reloader=True)
-    # serve(app, host="0.0.0.0", port=8081)
+ #    app.run(host="0.0.0.0", threaded=True, port=8081, debug=True, use_reloader=True)
+    serve(app, host="0.0.0.0", port=8081)
