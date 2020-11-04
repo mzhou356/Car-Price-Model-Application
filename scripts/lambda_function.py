@@ -10,7 +10,7 @@ from utils import user_input_process, score
 # load in a list of test user inputs from training data.
 
 def lambda_handler(event,context):
-	USER_INPUT = json.load(open("test_input.json"))
+	USER_INPUT = json.load(event)
 	TREE_FEATURE = user_input_process(USER_INPUT)
 	SCORE = score(TREE_FEATURE)[0]
 	

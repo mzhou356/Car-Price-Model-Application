@@ -5,14 +5,9 @@ import os
 import pickle as pkl
 from collections import OrderedDict
 import joblib
-# import tensorflow as tf
 import pandas as pd
 
 PATH = os.path.dirname(os.path.abspath(__file__))
-
-
-
-# tfk = tf.keras
 
 # define helper functions.
 def load_dict(filename):
@@ -100,69 +95,33 @@ def tree_input_process(user_input, user_input_processed_1):
                 user_input_tree_dict[key] = 1
     return pd.DataFrame(user_input_tree_dict, index=[0]).values
 
-def nn_input_process(user_input, user_input_processed_1):
-    """
-    This function takes modified user_input and
-    user_input_processed_1 dictionary to make neural network
-    features.
 
-    arg:
-    user_input: a json object, modified by input_process.
-    user_input_processed_1: output from input_process.
-
-    return:
-    neural network feature numpy array for prediction.
-    """
-    combined_inputs = {**user_input, **user_input_processed_1}
-    data = pd.DataFrame(combined_inputs, index=[0])[NN_COLS]
-    return data
 
 def user_input_process(user_input):
     """
-    This function takes raw user_input and returns tree and
-    nn_features for prediction.
+    This function takes raw user_input and returns tree features.
 
     arg:
     user_input: a json object.
 
     return:
-    a python tuple: tree_features as numpy array, nn_features as dataframe.
+    tree_features as numpy array
     """
     user_input_process_1 = input_process(user_input)
     tree_features = tree_input_process(user_input, user_input_process_1)
-    nn_features = nn_input_process(user_input, user_input_process_1)
-    return tree_features, nn_features
+    return tree_features
 
-def data_convert(inputs):
+
+
+def score(tree_features):
     """
-    This function takes neural network feature and makes it into categorical
-    embedding input list.
-
-    arg:
-    inputs: output from user_input_process for nn_features.
-
-    return:
-    a list of categorical embedding feature list for prediction.
-    """
-    cate_feature_list = []
-    for col in EMBED_COLS:
-        cate_feature_list.append(inputs[col].map(CATE_MAP[col]).fillna(0).values)
-    return cate_feature_list
-
-def combine_score(tree_features, nn_features):
-    """
-    This function takes tree_feature and nn_features and perform
-    combined predicted car price.
+    This function takes tree_feature perform predicted car price.
 
     arg:
     tree_features: output of user_input_process, a numpy array.
-    nn_features: output of user_input_process, a pandas dataframe.
 
     returns:
-    combined predicted car price.
+    predicted car price.
     """
-    nn_input_feature = data_convert(nn_features)
     pred_tree = RF_MDL.predict(tree_features)
-    pred_nn = NN_MDL.predict(nn_input_feature, batch_size=512)
-    combined = pred_nn.flatten()*0.5 + pred_tree*(1-0.5)
-    return combined
+    return pred_tree
