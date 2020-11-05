@@ -21,7 +21,7 @@ def predict():
     	return jsonify({"error": "invalid input"}), 400
     tree_feature, nn_feature = user_input_process(content)
     score = round(combine_score(tree_feature, nn_feature)[0],2)
-    return jsonify({"pred_price":score}), 200
+    return jsonify({"predicted_price":score}), 200
 	
 if __name__ == "__main__":
  #    app.run(host="0.0.0.0", threaded=True, port=8081, debug=True, use_reloader=True)
