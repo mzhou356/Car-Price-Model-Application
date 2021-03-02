@@ -51,10 +51,11 @@ def binning(col, thresholds):
     return:
     transformed col as a categorical object type.
     """
-    for key, value in thresholds.items():
-        if key[0] <= col <= key[1]:
-            return value
-    return None
+    if col:
+        for key, value in thresholds.items():
+            if key[0] <= col <= key[1]:
+                return value
+    return -1
 
 def input_process(user_input):
     """
